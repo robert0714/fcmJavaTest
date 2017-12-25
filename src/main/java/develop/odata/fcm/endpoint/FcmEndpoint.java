@@ -35,7 +35,7 @@ public class FcmEndpoint {
 		/***
 		 * client cache
 		 */
-		final	CacheControl cc = CacheControl.maxAge(15l,TimeUnit.MINUTES);
+		final	CacheControl cc = CacheControl.maxAge(3l,TimeUnit.SECONDS);
 		
 		final ResponseEntity<FcmRequest> result = ResponseEntity.ok().cacheControl(cc).body(request);
 		return result;
