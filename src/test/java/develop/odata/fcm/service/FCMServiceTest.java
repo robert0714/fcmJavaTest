@@ -60,7 +60,24 @@ public class FCMServiceTest {
 	}
 
 	@Test
+	@Ignore
 	public void testDailyJob() throws Exception {
+		service.dailyJob();
+	}
+	@Test
+	public void testDailyJobSendDateIsNull () throws Exception {
+		IFcmRecordRepository repository =mock(IFcmRecordRepository.class);
+		 
+		List<FcmRecord> value =new ArrayList<FcmRecord>();
+		FcmRequest request =  pseudo() ;
+		request.setSendDate(null);
+		;
+		FcmRecord sample =new FcmRecord();
+		sample.setSendData(request);
+		value.add(sample);
+		when(repository.findBydoneIsFalse()).thenReturn(value);
+		
+		ReflectionTestUtils.setField(service, "repository", repository);
 		service.dailyJob();
 	}
 

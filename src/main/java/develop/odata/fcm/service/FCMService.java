@@ -87,7 +87,16 @@ public class FCMService {
 		while (iterator.hasNext()) {
 			FcmRecord unit = iterator.next();
 			FcmRequest origin = unit.getSendData();
-			int greate = DateUtils.truncatedCompareTo( new Date(),origin.getSendDate(), Calendar.MINUTE);
+			final	Date sendDate = origin.getSendDate();
+			if(sendDate == null ) {
+				FcmResponse result = sendMsg(origin);
+				unit.setDone(true);
+				unit.setResult(result);
+				origin.setSendDate(new Date());
+				repository.save(unit);
+				continue ;
+			}
+			int greate = DateUtils.truncatedCompareTo( new Date(),sendDate, Calendar.MINUTE);
 			switch (greate) {
 			case 1:
 				FcmResponse result = sendMsg(origin);
